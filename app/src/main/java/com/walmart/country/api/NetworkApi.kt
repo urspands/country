@@ -5,6 +5,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
+/**
+ * An interface which defines the network apis to fetch data from the server
+ */
 interface NetworkApi {
     companion object {
         const val BASE_URL = "https://gist.githubusercontent.com/"
@@ -15,11 +18,17 @@ interface NetworkApi {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        /**
+         * Provides a instance of the [NetworkApi] to make api calls to server
+         */
         fun getNetworkApi(): NetworkApi =
             retrofit.create(NetworkApi::class.java)
 
     }
 
+    /**
+     * gets the list of countries from the server
+     */
     @GET(COUNTRY_PATH)
     suspend fun fetchCountriesFromServer(): CountryResponse
 }
