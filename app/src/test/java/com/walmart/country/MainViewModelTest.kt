@@ -75,14 +75,7 @@ class MainViewModelTest {
         viewModel.uiState.observeForever(uiStateObserver)
         runBlocking { Mockito.verify(repository).getCountries() }
         Mockito.verify(uiStateObserver)
-            .onChanged(UiState.Success(emptyResponse.map {
-                CountryUiModel(
-                    name = it.name,
-                    region = it.region,
-                    code = it.code,
-                    capital = it.capital
-                )
-            }))
+            .onChanged(UiState.EmptyState)
         viewModel.uiState.removeObserver(uiStateObserver)
     }
 

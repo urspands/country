@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun bindDataToUi(uiState: UiState<List<CountryUiModel>>) {
         when (uiState) {
             is UiState.Error -> {
+                showEmptyState(true)
                 showProgressBar(false)
                 Toast.makeText(
                     baseContext,
@@ -69,15 +70,30 @@ class MainActivity : AppCompatActivity() {
             }
 
             UiState.Loading -> {
+                showEmptyState(false)
                 showProgressBar(true)
             }
 
             is UiState.Success -> {
                 showProgressBar(false)
+                showEmptyState(false)
                 _countryAdapter.addCountries(uiState.data)
 
             }
+
+            UiState.EmptyState -> {
+                showProgressBar(false)
+                showEmptyState(true)
+            }
         }
+    }
+
+    /**
+     * shows or hides the empty state text
+     * @param show true to show or false to hide
+     */
+    private fun showEmptyState(show: Boolean) {
+        _binding.emptyText.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     /**

@@ -13,8 +13,7 @@ class DataRepositoryImpl(private val networkApi: NetworkApi) : DataRepository {
      */
     override suspend fun getCountries(): DataResult<CountryResponse> {
         return try {
-            val response = networkApi.fetchCountriesFromServer()
-            DataResult.Success(response)
+            DataResult.Success(networkApi.fetchCountriesFromServer())
         } catch (e: Exception) {
             DataResult.Error(e)
         }

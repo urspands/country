@@ -27,16 +27,23 @@ class MainViewModel(private val dataRepository: DataRepository) : ViewModel() {
                     //emitting error state
                     emit(UiState.Error(response.exception))
                 }
+
                 is DataResult.Success -> {
-                    //emitting success state
-                    emit(UiState.Success(response.data.map {
-                        CountryUiModel(
-                            name = it.name,
-                            region = it.region,
-                            code = it.code,
-                            capital = it.capital
-                        )
-                    }))
+                    if (response.data.isEmpty()) {
+                        //emitting empty state
+                        emit(UiState.EmptyState)
+                    } else {
+                        //emitting success state
+                        emit(UiState.Success(response.data.map {
+                            CountryUiModel(
+                                name = it.name,
+                                region = it.region,
+                                code = it.code,
+                                capital = it.capital
+                            )
+                        }))
+                    }
+
                 }
             }
         }
