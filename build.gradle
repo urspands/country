@@ -3,6 +3,7 @@ buildscript {
     ext{
         retrofitVersion = "2.9.0"
         lifecycle_version = "2.6.1"
+        fragment_version = "1.5.6"
     }
 }
 plugins {
