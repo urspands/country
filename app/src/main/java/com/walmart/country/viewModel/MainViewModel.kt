@@ -36,7 +36,9 @@ class MainViewModel(private val dataRepository: DataRepository) : ViewModel() {
                         emit(UiState.EmptyState)
                     } else {
                         //emitting success state
-                        emit(UiState.Success(withContext(Dispatchers.Default) {
+                        emit(UiState.Success(
+                            // transforming data in default thread pool
+                            withContext(Dispatchers.Default) {
                             response.data.map {
                                 CountryUiModel(
                                     name = it.name,
