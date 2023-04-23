@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.walmart.country.repository.DataRepository
 import com.walmart.country.repository.DataResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * A simple [ViewModel] subclass which loads and holds the data of list of countries
@@ -34,13 +36,15 @@ class MainViewModel(private val dataRepository: DataRepository) : ViewModel() {
                         emit(UiState.EmptyState)
                     } else {
                         //emitting success state
-                        emit(UiState.Success(response.data.map {
-                            CountryUiModel(
-                                name = it.name,
-                                region = it.region,
-                                code = it.code,
-                                capital = it.capital
-                            )
+                        emit(UiState.Success(withContext(Dispatchers.Default) {
+                            response.data.map {
+                                CountryUiModel(
+                                    name = it.name,
+                                    region = it.region,
+                                    code = it.code,
+                                    capital = it.capital
+                                )
+                            }
                         }))
                     }
 
